@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/preference_category_permissions">
+        <EditTextPreference
+            android:summary="@string/preference_api_key_detail"
+            android:title="@string/preference_api_key"
+            android:key="apiKey" />
+        <com.badon.brigham.notify.NRPPreference
+            android:summary="@string/preference_nrp_detail"
+            android:title="@string/preference_nrp" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/preference_category_customization">
+        <Preference
+            android:summary="@string/preference_app_colors_detail"
+            android:title="@string/preference_app_colors" >
+            <intent android:action="android.intent.action.VIEW"
+                android:targetPackage="com.badon.brigham.notify"
+                android:targetClass="com.badon.brigham.notify.ApplicationPickerActivity" />
+        </Preference>
+        <com.badon.brigham.notify.CyclesPreference
+            android:summary="@string/preference_cycles_detail"
+            android:title="@string/preference_cycles"
+            android:key="Cycles"/>
+    </PreferenceCategory>
+</PreferenceScreen>
