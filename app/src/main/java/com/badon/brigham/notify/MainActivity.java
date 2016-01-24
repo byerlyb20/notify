@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                 .add(R.id.settingsFragment, new SettingsFragment())
                 .commit();
+
+        TextView attributions = (TextView) findViewById(R.id.attributions);
+        attributions.setText(Html.fromHtml(getResources().getString(R.string.about)));
     }
 
 
