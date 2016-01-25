@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.badon.brigham.notify.dialog.AboutDialog;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                 .add(R.id.settingsFragment, new SettingsFragment())
                 .commit();
-
-        TextView attributions = (TextView) findViewById(R.id.attributions);
-        attributions.setText(Html.fromHtml(getResources().getString(R.string.about)));
     }
 
 
@@ -47,9 +46,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, IntroActivity.class));
-            return true;
+        switch (id) {
+            case R.id.action_about:
+                AboutDialog.getDialog(this).show();
+                break;
+            case R.id.action_intro:
+                startActivity(new Intent(this, IntroActivity.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);
