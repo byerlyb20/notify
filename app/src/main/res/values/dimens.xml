@@ -3,4 +3,9 @@
     <dimen name="activity_application_picker">0dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_intro_cardview">16dp</dimen>
+    <dimen name="dialog_margin">24dp</dimen>
+    <!-- List Item dimensions, per the Material Design guidelines. -->
+    <dimen name="list_item_padding_start">16dp</dimen>
+    <dimen name="list_item_padding_horizontal">20dp</dimen>
+    <dimen name="list_item_height">72dp</dimen>
 </resources>

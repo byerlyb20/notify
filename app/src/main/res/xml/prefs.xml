@@ -6,7 +6,7 @@
             android:summary="@string/preference_api_key_detail"
             android:title="@string/preference_api_key"
             android:key="apiKey" />
-        <com.badon.brigham.notify.NRPPreference
+        <com.badon.brigham.notify.preference.NRPPreference
             android:summary="@string/preference_nrp_detail"
             android:title="@string/preference_nrp" />
     </PreferenceCategory>
@@ -19,9 +19,26 @@
                 android:targetPackage="com.badon.brigham.notify"
                 android:targetClass="com.badon.brigham.notify.ApplicationPickerActivity" />
         </Preference>
-        <com.badon.brigham.notify.CyclesPreference
+        <com.badon.brigham.notify.preference.CyclesPreference
             android:summary="@string/preference_cycles_detail"
             android:title="@string/preference_cycles"
-            android:key="Cycles"/>
+            android:key="cycles"/>
+        <ListPreference
+            android:key="pulseType"
+            android:title="@string/preference_pulse"
+            android:defaultValue="Breath"
+            android:entries="@array/pulse"
+            android:entryValues="@array/pulse"/>
+        <ListPreference
+            android:key="priority"
+            android:title="@string/preference_priority"
+            android:defaultValue="0"
+            android:entries="@array/priorities"
+            android:entryValues="@array/priorityValues"/>
+        <CheckBoxPreference
+            android:title="@string/preference_color_wheel"
+            android:summary="@string/preference_color_wheel_detail"
+            android:defaultValue="false"
+            android:key="oldColorWheel"/>
     </PreferenceCategory>
 </PreferenceScreen>

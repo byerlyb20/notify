@@ -4,8 +4,6 @@
     <string name="title_activity_application_picker">Choose Application</string>
     <string name="title_activity_intro">Welcome to Notify</string>
 
-    <string name="header">let\'s do this</string>
-
     <string name="welcome_intro">Welcome to Notify! With Notify, your LIFX bulb will flash whenever you get a new notification. To get started, swipe.</string>
     <string name="preference_category_permissions">Permissions</string>
     <string name="preference_api_key">API Key</string>
@@ -17,6 +15,11 @@
     <string name="preference_app_colors_detail">Change the colors used for certain apps</string>
     <string name="preference_cycles">Breath Cycles</string>
     <string name="preference_cycles_detail">Change how many breath cycles are used when you receive a notification</string>
+    <string name="preference_color_wheel">Use the old color picker</string>
+    <string name="preference_color_wheel_detail">This feature is no longer supported and may disappear in future releases</string>
+    <string name="preference_pulse">Pulse Type</string>
+    <string name="preference_priority">Minimum Notification Priority</string>
+
     <string name="priv_intro">Now, let\'s enable Notification Read Privileges for Notify. Below tap the Read Privileges button and check the box next to Notify.</string>
     <string name="apikey_intro">First, enter your LIFX API key so we can control your LIFX bulbs. If you don\'t have an API key, you can get one at cloud.lifx.com/settings.</string>
     <string name="finished_intro">Great job! You\'re done. You can modify these settings at any time by coming back to the app. Other features like App Specific Coloring can also be enabled by coming back to the app.</string>
@@ -40,16 +43,14 @@
     <string name="color_8">Twitter Blue (#00ACED)</string>
     <string name="color_9">Instagram Blue (#517FA4)</string>
 
-    <string name="cycles_dialog_title">Change Breath Cycles</string>
+    <string name="cycles_dialog_title">Change Pulse Cycles</string>
     <string name="setup_incomplete_dialog_title">Setup Incomplete</string>
-    <string name="save_setup">Save Setup</string>
-    <string name="save_cycles">Save Cycles</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
+    <string name="auto">Default</string>
     <string name="setup_dialog_title">Edit App Configurations</string>
     <string name="action_settings">Settings</string>
     <string name="action_intro">Introduction</string>
     <string name="action_about">About</string>
+    <string name="action_notification">Create Test Notification</string>
 
     <string name="about">
         &lt;b&gt;Open Source Licenses&lt;/b&gt;
@@ -65,6 +66,48 @@
         &lt;br /&gt;
         &lt;br /&gt;
         &lt;br /&gt;
+    &lt;b&gt;Lobsterpicker&lt;/b&gt;
+        &lt;br /&gt;
+        &lt;br /&gt;
+        Copyright 2016 Marie Schweiz and Lars Werkman
+        &lt;br /&gt;
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        &lt;br /&gt;
+        &lt;br /&gt;
+     http://www.apache.org/licenses/LICENSE-2.0
+        &lt;br /&gt;
+        &lt;br /&gt;
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+        &lt;br /&gt;
+        &lt;br /&gt;
+        &lt;br /&gt;
+    &lt;b&gt;Android Open Source Project&lt;/b&gt;
+        &lt;br /&gt;
+        &lt;br /&gt;
+    Copyright 2016 The Android Open Source Project
+        &lt;br /&gt;
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+        &lt;br /&gt;
+        &lt;br /&gt;
+    http://www.apache.org/licenses/LICENSE-2.0
+        &lt;br /&gt;
+        &lt;br /&gt;
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+        &lt;br /&gt;
+        &lt;br /&gt;
+        &lt;br /&gt;
         &lt;b&gt;About App&lt;/b&gt;
         &lt;br /&gt;
         &lt;br /&gt;
@@ -73,4 +116,25 @@
         &lt;br /&gt;
         © 2016 Brigham Byerly
     </string>
+
+    <string-array name="pulse">
+        <item>Breath</item>
+        <item>Flash</item>
+    </string-array>
+
+    <string-array name="priorities">
+        <item>Lowest</item>
+        <item>Low</item>
+        <item>Normal</item>
+        <item>High</item>
+        <item>Highest</item>
+    </string-array>
+
+    <string-array name="priorityValues">
+        <item>-2</item>
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

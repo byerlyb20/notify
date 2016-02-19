@@ -2,10 +2,17 @@ package com.badon.brigham.notify;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
+
+
+import com.badon.brigham.notify.util.LIFXAPI;
+import com.badon.brigham.notify.util.SettingsManager;
 
 
 public class LIFXNotify extends NotificationListenerService {
@@ -27,21 +34,30 @@ public class LIFXNotify extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Log.i("LIFXNotify", "Notification Recieved");
-        Log.i("LIFXNotify", "Package: " + sbn.getPackageName());
         SettingsManager settings = new SettingsManager(this);
-            Log.i("LIFXNotify", "App not disabled, executing notification");
-            Notification notification = sbn.getNotification();
-            NotificationListenerService.RankingMap rankingMap = this.getCurrentRanking();
-            NotificationListenerService.Ranking ranking = new NotificationListenerService.Ranking();
-            rankingMap.getRanking(sbn.getKey(), ranking);
-            if (ranking.matchesInterruptionFilter() && notification.priority != Notification.PRIORITY_MIN && notification.priority != Notification.PRIORITY_LOW && sbn.isClearable()) {
-                Log.i("LIFXNotify", "Real Notification, priority: " + notification.priority);
-                String apiKey = settings.getAPIKey();
-                String color = settings.getPackageColor(sbn.getPackageName());
-                Log.i("LIFXNotify", "Displaying Notification with color " + color + " and apiKey " + apiKey);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Notification notification = sbn.getNotification();
+        NotificationListenerService.RankingMap rankingMap = this.getCurrentRanking();
+        NotificationListenerService.Ranking ranking = new NotificationListenerService.Ranking();
+        rankingMap.getRanking(sbn.getKey(), ranking);
+        if (ranking.matchesInterruptionFilter() && notification.priority >= Integer.valueOf(prefs.getString("priority", "0")) && sbn.isClearable()) {
+            try {
+                String apiKey = prefs.getString("apiKey", "");
+                ApplicationInfo app = getPackageManager().getApplicationInfo(sbn.getPackageName(), 0);
+
+                String color = settings.getPackageColor(app);
                 LIFXAPI lifxApi = new LIFXAPI(apiKey);
-                lifxApi.breath("all", color, settings.getBreathCycles());
+                switch (prefs.getString("pulseType", "breath")) {
+                    case "Breath":
+                        lifxApi.breath(color, prefs.getInt("cycles", 2));
+                        break;
+                    case "Flash":
+                        lifxApi.flash(color, prefs.getInt("cycles", 2));
+                        break;
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
             }
+        }
     }
 }

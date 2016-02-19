@@ -1,4 +1,4 @@
-package com.badon.brigham.notify;
+package com.badon.brigham.notify.preference;
 
 import android.content.Context;
 import android.content.Intent;

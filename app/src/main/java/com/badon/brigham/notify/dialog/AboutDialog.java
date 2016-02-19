@@ -9,9 +9,15 @@ import com.badon.brigham.notify.R;
 
 public class AboutDialog {
 
-    public static AlertDialog getDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
-        builder.setMessage(Html.fromHtml(context.getResources().getString(R.string.about)))
+    private Context mContext;
+
+    public AboutDialog(Context context) {
+        mContext = context;
+    }
+
+    public AlertDialog getDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.DialogTheme);
+        builder.setMessage(Html.fromHtml(mContext.getResources().getString(R.string.about)))
                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
