@@ -3,9 +3,9 @@
     <PreferenceCategory
         android:title="@string/preference_category_permissions">
         <EditTextPreference
+            android:key="apiKey"
             android:summary="@string/preference_api_key_detail"
-            android:title="@string/preference_api_key"
-            android:key="apiKey" />
+            android:title="@string/preference_api_key" />
         <com.badon.brigham.notify.preference.NRPPreference
             android:summary="@string/preference_nrp_detail"
             android:title="@string/preference_nrp" />
@@ -16,29 +16,24 @@
             android:summary="@string/preference_app_colors_detail"
             android:title="@string/preference_app_colors" >
             <intent android:action="android.intent.action.VIEW"
-                android:targetPackage="com.badon.brigham.notify"
-                android:targetClass="com.badon.brigham.notify.ApplicationPickerActivity" />
+                android:targetClass="com.badon.brigham.notify.ApplicationPickerActivity"
+                android:targetPackage="com.badon.brigham.notify" />
         </Preference>
         <com.badon.brigham.notify.preference.CyclesPreference
+            android:key="cycles"
             android:summary="@string/preference_cycles_detail"
-            android:title="@string/preference_cycles"
-            android:key="cycles"/>
+            android:title="@string/preference_cycles" />
         <ListPreference
-            android:key="pulseType"
-            android:title="@string/preference_pulse"
             android:defaultValue="Breath"
             android:entries="@array/pulse"
-            android:entryValues="@array/pulse"/>
+            android:entryValues="@array/pulse"
+            android:key="pulseType"
+            android:title="@string/preference_pulse" />
         <ListPreference
-            android:key="priority"
-            android:title="@string/preference_priority"
             android:defaultValue="0"
             android:entries="@array/priorities"
-            android:entryValues="@array/priorityValues"/>
-        <CheckBoxPreference
-            android:title="@string/preference_color_wheel"
-            android:summary="@string/preference_color_wheel_detail"
-            android:defaultValue="false"
-            android:key="oldColorWheel"/>
+            android:entryValues="@array/priorityValues"
+            android:key="priority"
+            android:title="@string/preference_priority" />
     </PreferenceCategory>
 </PreferenceScreen>

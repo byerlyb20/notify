@@ -3,18 +3,20 @@ package com.badon.brigham.notify;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-
 import android.view.View;
 
 import com.badon.brigham.notify.adapter.ApplicationListAdapter;
 import com.badon.brigham.notify.adapter.ClickAdapter;
-import com.badon.brigham.notify.dialog.ColorPickerDialog;
 import com.badon.brigham.notify.dialog.ColorWheelDialog;
+import com.badon.brigham.notify.util.SettingsManager;
+import com.badon.brigham.notify.util.SettingsManagerAsyncTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,20 +39,35 @@ public class ApplicationPickerActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new ClickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                boolean oldColorWheel = PreferenceManager.getDefaultSharedPreferences(ApplicationPickerActivity.this).getBoolean("oldColorWheel", false);
-                if (oldColorWheel) {
-                    new ColorPickerDialog(ApplicationPickerActivity.this).getDialog(mApplications.get(position)).show();
-                } else {
-                    new ColorWheelDialog(ApplicationPickerActivity.this).getDialog(mApplications.get(position)).show();
-                }
+                new ColorWheelDialog(ApplicationPickerActivity.this).getDialog(mApplications.get(position)).show();
+            }
+        });
+        mAdapter.setOnItemEnableChangeListener(new ApplicationListAdapter.OnItemEnabledChangeListener() {
+            @Override
+            public void onItemEnableChange(final int position, final boolean value) {
+                new SettingsManagerAsyncTask(ApplicationPickerActivity.this, new SettingsManagerAsyncTask.OnSettingsManagerCreated() {
+                    @Override
+                    public void onTimeManagerCreated(SettingsManager settings) {
+                        JSONObject object = settings.getPackagePreferences(mApplications.get(position));
+                        try {
+                            object.put("enabled", value);
+                            settings.addPackagePreferences(mApplications.get(position), object);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).execute();
             }
         });
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,9 +10,12 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-
 import com.badon.brigham.notify.util.LIFXAPI;
 import com.badon.brigham.notify.util.SettingsManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class LIFXNotify extends NotificationListenerService {
@@ -34,7 +37,7 @@ public class LIFXNotify extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        SettingsManager settings = new SettingsManager(this);
+        SettingsManager settings = SettingsManager.getSettings(this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Notification notification = sbn.getNotification();
         NotificationListenerService.RankingMap rankingMap = this.getCurrentRanking();
@@ -43,19 +46,41 @@ public class LIFXNotify extends NotificationListenerService {
         if (ranking.matchesInterruptionFilter() && notification.priority >= Integer.valueOf(prefs.getString("priority", "0")) && sbn.isClearable()) {
             try {
                 String apiKey = prefs.getString("apiKey", "");
-                ApplicationInfo app = getPackageManager().getApplicationInfo(sbn.getPackageName(), 0);
+                PackageManager manager = getPackageManager();
+                ApplicationInfo app = manager.getApplicationInfo(sbn.getPackageName(), 0);
 
-                String color = settings.getPackageColor(app);
-                LIFXAPI lifxApi = new LIFXAPI(apiKey);
-                switch (prefs.getString("pulseType", "breath")) {
-                    case "Breath":
-                        lifxApi.breath(color, prefs.getInt("cycles", 2));
-                        break;
-                    case "Flash":
-                        lifxApi.flash(color, prefs.getInt("cycles", 2));
-                        break;
+                JSONObject appPrefs = settings.getPackagePreferences(app);
+                if (appPrefs.optBoolean("enabled", true)) {
+                    String color = appPrefs.optString("color", "default");
+                    if (color.equals("default")) {
+                        color = settings.getDefaultColor(app.loadIcon(manager));
+                    }
+                    JSONArray lights = appPrefs.optJSONArray("lights");
+                    String selector;
+                    if (lights == null) {
+                        selector = "all";
+                    } else {
+                        selector = "";
+                        for (int i = 0; i < lights.length(); i++) {
+                            if (i > 0) selector += ",";
+                            String id = lights.getString(i);
+                            selector += "label:" + id;
+                        }
+                    }
+
+                    LIFXAPI lifxApi = new LIFXAPI(apiKey);
+                    if (!selector.isEmpty()) {
+                        switch (prefs.getString("pulseType", "breath")) {
+                            case "Breath":
+                                lifxApi.breath(color, prefs.getInt("cycles", 2), selector);
+                                break;
+                            case "Flash":
+                                lifxApi.flash(color, prefs.getInt("cycles", 2), selector);
+                                break;
+                        }
+                    }
                 }
-            } catch (PackageManager.NameNotFoundException e) {
+            } catch (PackageManager.NameNotFoundException | JSONException e) {
                 e.printStackTrace();
             }
         }

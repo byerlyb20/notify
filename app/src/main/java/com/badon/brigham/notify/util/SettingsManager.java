@@ -4,100 +4,92 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v7.graphics.Palette;
+import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SettingsManager {
 
-    private SharedPreferences sharedPref;
+    private static final String NOTIFICATIONS_STORE = "prefs.json";
+    private static SettingsManager mSettingsManager;
+    private SharedPreferences mSharedPref;
     private Context mContext;
+    private JSONArray mNotificationPreferences;
+    private JSONArray mLights;
 
-    public SettingsManager(Context context) {
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+    private SettingsManager(Context context) {
         mContext = context;
-    }
 
-    public String getPackageColor(ApplicationInfo app) {
-        String[] packages = sharedPref.getString("packages", "").split(",");
-        String[] colors = sharedPref.getString("colors", "").split(",");
-        int index = Arrays.asList(packages).indexOf(app.packageName);
-        if (index != -1) {
-            return colors[index];
-        } else {
-            Drawable icon = mContext.getPackageManager().getApplicationIcon(app);
-            return getDefaultColor(icon);
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        File file = new File(mContext.getFilesDir(), NOTIFICATIONS_STORE);
+        String times = "";
+        FileInputStream inputStream;
+        try {
+            inputStream = new FileInputStream(file);
+            int size = inputStream.available();
+
+            byte[] buffer = new byte[size];
+
+            inputStream.read(buffer);
+
+            inputStream.close();
+            times = new String(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    public void addPackageColor(ApplicationInfo app, String color) {
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        ArrayList<String> packages = new ArrayList<>();
-        ArrayList<String> colors = new ArrayList<>();
-        if (!sharedPref.getString("packages", "").isEmpty()) {
-            packages = new ArrayList<>(Arrays.asList(sharedPref.getString("packages", "").split(",")));
-            colors = new ArrayList<>(Arrays.asList(sharedPref.getString("colors", "").split(",")));
-        }
-
-        int index = packages.indexOf(app.packageName);
-
-        if (!color.equals("default")) {
-            if (index != -1) {
-                // Modify existing package entry
-                colors.remove(index);
-                colors.add(index, color);
-            } else {
-                // Create new package entry
-                packages.add(app.packageName);
-                colors.add(color);
+        if (!times.isEmpty()) {
+            try {
+                mNotificationPreferences = new JSONArray(times);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mNotificationPreferences = new JSONArray();
             }
         } else {
-            if (index != -1) {
-                packages.remove(index);
-                colors.remove(index);
+            Log.v("SettingsManager", "Restoring previous preferences");
+            mNotificationPreferences = new JSONArray();
+            String[] packages = mSharedPref.getString("packages", "").split(",");
+            String[] colors = mSharedPref.getString("colors", "").split(",");
+
+            int i = 0;
+            for (String string : packages) {
+                JSONObject object = new JSONObject();
+                try {
+                    Log.v("SettingsManager", "Restoring prefs for " + string + ": " + colors[i]);
+                    object.put("color", colors[i]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.v("SettingsManager", "Final object for " + string + ": " + object.toString());
+                addPackagePreferences(string, object);
+                i++;
             }
+
+            mSharedPref.edit().putString("packages", null).putString("colors", null).apply();
         }
-
-        StringBuilder packageBuilder = new StringBuilder();
-        for (String n : packages) {
-            packageBuilder.append(n).append(",");
-        }
-
-        String finalPackages = packageBuilder.toString();
-        editor.putString("packages", finalPackages);
-
-        StringBuilder colorBuilder = new StringBuilder();
-        for (String n : colors) {
-            colorBuilder.append(n).append(",");
-        }
-
-        String finalColors = colorBuilder.toString();
-        editor.putString("colors", finalColors);
-        editor.apply();
     }
 
-    private String getDefaultColor(Drawable drawable) {
-        Bitmap bitmap = drawableToBitmap(drawable);
-        if (bitmap != null && !bitmap.isRecycled()) {
-            Palette palette = Palette.from(bitmap).generate();
-            int vibrant = palette.getVibrantColor(0x000000);
-            return String.format("#%06X", 0xFFFFFF & vibrant);
-        }
+    public synchronized static SettingsManager getSettings(Context context) {
 
-        return "#9A2EFE";
+        if (mSettingsManager == null) mSettingsManager = new SettingsManager(context);
+
+        return mSettingsManager;
     }
 
     private static Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
@@ -116,5 +108,95 @@ public class SettingsManager {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    public JSONObject getPackagePreferences(ApplicationInfo app) {
+        for (int i = 0; i < mNotificationPreferences.length(); i++) {
+            try {
+                JSONObject object = mNotificationPreferences.getJSONObject(i);
+                if (object.getString("package").equals(app.packageName)) {
+                    return object;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("package", app.packageName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+    public void addPackagePreferences(ApplicationInfo app, JSONObject object) {
+        addPackagePreferences(app.packageName, object);
+    }
+
+    public void addPackagePreferences(String packageName, JSONObject object) {
+        try {
+            if (!object.optString("color").equals("default") || !object.optBoolean("enabled", true) || object.optJSONArray("lights") != null) {
+                object.put("package", packageName);
+                mNotificationPreferences.put(object);
+            } else {
+                removePackagePreferences(packageName);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removePackagePreferences(ApplicationInfo app) {
+        removePackagePreferences(app.packageName);
+    }
+
+    public void removePackagePreferences(String packageName) {
+        for (int i = 0; i < mNotificationPreferences.length(); i++) {
+            try {
+                JSONObject object = mNotificationPreferences.getJSONObject(i);
+                if (object.getString("package").equals(packageName)) {
+                    mNotificationPreferences.remove(i);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public JSONArray getLights() {
+        if (mLights == null) {
+            resetLights();
+        }
+
+        return mLights;
+    }
+
+    public void resetLights() {
+        LIFXAPI api = new LIFXAPI(mSharedPref.getString("apiKey", ""));
+        mLights = api.listLights();
+    }
+
+    public String getDefaultColor(Drawable drawable) {
+        Bitmap bitmap = drawableToBitmap(drawable);
+        if (bitmap != null && !bitmap.isRecycled()) {
+            Palette palette = Palette.from(bitmap).generate();
+            int vibrant = palette.getVibrantColor(0x000000);
+            return String.format("#%06X", 0xFFFFFF & vibrant);
+        }
+
+        return "#9A2EFE";
+    }
+
+    private void save() {
+        FileOutputStream outputStream;
+        try {
+            outputStream = mContext.openFileOutput(NOTIFICATIONS_STORE, Context.MODE_PRIVATE);
+            outputStream.write(mNotificationPreferences.toString().getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
