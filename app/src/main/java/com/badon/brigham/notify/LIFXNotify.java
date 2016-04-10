@@ -64,7 +64,7 @@ public class LIFXNotify extends NotificationListenerService {
                         for (int i = 0; i < lights.length(); i++) {
                             if (i > 0) selector += ",";
                             String id = lights.getString(i);
-                            selector += "label:" + id;
+                            selector += "id:" + id;
                         }
                     }
 

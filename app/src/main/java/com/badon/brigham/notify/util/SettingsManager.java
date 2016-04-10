@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v7.graphics.Palette;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +57,6 @@ public class SettingsManager {
                 mNotificationPreferences = new JSONArray();
             }
         } else {
-            Log.v("SettingsManager", "Restoring previous preferences");
             mNotificationPreferences = new JSONArray();
             String[] packages = mSharedPref.getString("packages", "").split(",");
             String[] colors = mSharedPref.getString("colors", "").split(",");
@@ -67,12 +65,10 @@ public class SettingsManager {
             for (String string : packages) {
                 JSONObject object = new JSONObject();
                 try {
-                    Log.v("SettingsManager", "Restoring prefs for " + string + ": " + colors[i]);
                     object.put("color", colors[i]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.v("SettingsManager", "Final object for " + string + ": " + object.toString());
                 addPackagePreferences(string, object);
                 i++;
             }
