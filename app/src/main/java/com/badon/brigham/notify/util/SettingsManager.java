@@ -14,10 +14,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class SettingsManager {
 
@@ -35,17 +37,18 @@ public class SettingsManager {
 
         File file = new File(mContext.getFilesDir(), NOTIFICATIONS_STORE);
         String times = "";
-        FileInputStream inputStream;
         try {
-            inputStream = new FileInputStream(file);
-            int size = inputStream.available();
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
 
-            byte[] buffer = new byte[size];
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
 
-            inputStream.read(buffer);
+            in.close();
 
-            inputStream.close();
-            times = new String(buffer, "UTF-8");
+            times = response.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +100,8 @@ public class SettingsManager {
         if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
             bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         }
 
         Canvas canvas = new Canvas(bitmap);
@@ -133,19 +137,17 @@ public class SettingsManager {
 
     public void addPackagePreferences(String packageName, JSONObject object) {
         try {
-            if (!object.optString("color").equals("default") || !object.optBoolean("enabled", true) || object.optJSONArray("lights") != null) {
+            if (!object.optString("color").equals("default") || !object.optBoolean("enabled", true)
+                    || object.optJSONArray("lights") != null) {
                 object.put("package", packageName);
                 mNotificationPreferences.put(object);
+                save();
             } else {
                 removePackagePreferences(packageName);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void removePackagePreferences(ApplicationInfo app) {
-        removePackagePreferences(app.packageName);
     }
 
     public void removePackagePreferences(String packageName) {
@@ -155,6 +157,8 @@ public class SettingsManager {
                 if (object.getString("package").equals(packageName)) {
                     mNotificationPreferences.remove(i);
                 }
+                save();
+                break;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -162,7 +166,7 @@ public class SettingsManager {
     }
 
     public JSONArray getLights() {
-        if (mLights == null) {
+        if (mLights == null || mLights.length() == 0) {
             resetLights();
         }
 
@@ -170,8 +174,15 @@ public class SettingsManager {
     }
 
     public void resetLights() {
-        LIFXAPI api = new LIFXAPI(mSharedPref.getString("apiKey", ""));
-        mLights = api.listLights();
+        String apiKey = mSharedPref.getString("apiKey", "");
+
+        LifxCloud api = new LifxCloud(mContext, apiKey);
+        try {
+            mLights = api.listLights();
+        } catch (LifxCloud.LifxCloudException e) {
+            e.printStackTrace();
+            mLights = new JSONArray();
+        }
     }
 
     public String getDefaultColor(Drawable drawable) {
@@ -186,9 +197,9 @@ public class SettingsManager {
     }
 
     private void save() {
-        FileOutputStream outputStream;
         try {
-            outputStream = mContext.openFileOutput(NOTIFICATIONS_STORE, Context.MODE_PRIVATE);
+            FileOutputStream outputStream = mContext.openFileOutput(NOTIFICATIONS_STORE,
+                    Context.MODE_PRIVATE);
             outputStream.write(mNotificationPreferences.toString().getBytes());
             outputStream.close();
         } catch (IOException e) {

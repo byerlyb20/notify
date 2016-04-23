@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 
 public class SettingsManagerAsyncTask extends AsyncTask<Void, Void, SettingsManager> {
 
-    protected Context mContext;
-    protected OnSettingsManagerCreated mListener;
+    private Context mContext;
+    private OnSettingsManagerCreated mListener;
 
     public SettingsManagerAsyncTask(Context context, OnSettingsManagerCreated listener) {
         mContext = context;
@@ -20,10 +20,10 @@ public class SettingsManagerAsyncTask extends AsyncTask<Void, Void, SettingsMana
 
     @Override
     protected void onPostExecute(SettingsManager result) {
-        mListener.onTimeManagerCreated(result);
+        mListener.onSettingsManagerCreated(result);
     }
 
     public interface OnSettingsManagerCreated {
-        void onTimeManagerCreated(SettingsManager settings);
+        void onSettingsManagerCreated(SettingsManager settings);
     }
 }

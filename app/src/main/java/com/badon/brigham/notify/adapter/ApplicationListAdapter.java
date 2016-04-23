@@ -37,17 +37,16 @@ public class ApplicationListAdapter extends ClickAdapter<ApplicationListAdapter.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_application, parent, false);
         ViewHolder holder = new ApplicationListAdapter.ViewHolder(view);
         holder.attachToListener(mListener);
-        holder.attachToLongListener(mLongListener);
         holder.attachToEnabledListener(mEnabledListener);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final ApplicationListAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ApplicationListAdapter.ViewHolder holder, int position) {
         new SettingsManagerAsyncTask(mContext, new SettingsManagerAsyncTask.OnSettingsManagerCreated() {
             @Override
-            public void onTimeManagerCreated(SettingsManager settings) {
-                ApplicationInfo applicationInfo = mApplications.get(position);
+            public void onSettingsManagerCreated(SettingsManager settings) {
+                ApplicationInfo applicationInfo = mApplications.get(holder.getAdapterPosition());
                 JSONObject object = settings.getPackagePreferences(applicationInfo);
                 holder.mPrimary.setText(applicationInfo.loadLabel(mManager).toString());
                 holder.mSecondary.setText(applicationInfo.packageName);

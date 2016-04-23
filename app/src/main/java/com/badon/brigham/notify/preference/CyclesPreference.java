@@ -12,12 +12,12 @@ import com.badon.brigham.notify.R;
 
 public class CyclesPreference extends DialogPreference {
 
-    Context context;
-    NumberPicker numberPicker;
+    private Context mContext;
+    private NumberPicker mNumberPicker;
 
     public CyclesPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
+        mContext = context;
         setDialogTitle(R.string.cycles_dialog_title);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
@@ -36,16 +36,17 @@ public class CyclesPreference extends DialogPreference {
 
     @Override
     protected View onCreateDialogView() {
-        numberPicker = new NumberPicker(context);
-        numberPicker.setMaxValue(10);
-        numberPicker.setValue(getPersistedInt(2));
-        return numberPicker;
+        mNumberPicker = new NumberPicker(mContext);
+        mNumberPicker.setMaxValue(10);
+        mNumberPicker.setMinValue(1);
+        mNumberPicker.setValue(getPersistedInt(2));
+        return mNumberPicker;
     }
 
     @Override
     public void onClick(DialogInterface dialog, int button) {
         if (button == DialogInterface.BUTTON_POSITIVE) {
-            persistInt(numberPicker.getValue());
+            persistInt(mNumberPicker.getValue());
             int pulseCycles = getPersistedInt(2);
             if (pulseCycles != 1) {
                 setSummary("Pulse " + pulseCycles + " times");

@@ -25,8 +25,8 @@ import java.util.Comparator;
 
 public class ApplicationPickerActivity extends AppCompatActivity {
 
-    ApplicationListAdapter mAdapter;
-    ArrayList<ApplicationInfo> mApplications = new ArrayList<>();
+    private ApplicationListAdapter mAdapter;
+    private ArrayList<ApplicationInfo> mApplications = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class ApplicationPickerActivity extends AppCompatActivity {
             public void onItemEnableChange(final int position, final boolean value) {
                 new SettingsManagerAsyncTask(ApplicationPickerActivity.this, new SettingsManagerAsyncTask.OnSettingsManagerCreated() {
                     @Override
-                    public void onTimeManagerCreated(SettingsManager settings) {
+                    public void onSettingsManagerCreated(SettingsManager settings) {
                         JSONObject object = settings.getPackagePreferences(mApplications.get(position));
                         try {
                             object.put("enabled", value);
@@ -90,5 +90,7 @@ public class ApplicationPickerActivity extends AppCompatActivity {
         });
         mAdapter.setApplications(mApplications);
         mAdapter.notifyDataSetChanged();
+
+        SettingsManager.getSettings(this).resetLights();
     }
 }

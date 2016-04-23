@@ -1,12 +1,10 @@
 package com.badon.brigham.notify.dialog;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +26,7 @@ import org.json.JSONObject;
 
 public class ColorWheelDialog {
 
-    private Activity mContext;
+    private Context mContext;
     private JSONObject mAppPrefs;
     private LobsterPicker mPicker;
     private LobsterShadeSlider mShader;
@@ -36,7 +34,7 @@ public class ColorWheelDialog {
     private RecyclerView mLightsList;
     private LightsAdapter mLightsAdapter;
 
-    public ColorWheelDialog(Activity context) {
+    public ColorWheelDialog(Context context) {
         mContext = context;
     }
 
@@ -51,7 +49,7 @@ public class ColorWheelDialog {
 
         new SettingsManagerAsyncTask(mContext, new SettingsManagerAsyncTask.OnSettingsManagerCreated() {
             @Override
-            public void onTimeManagerCreated(SettingsManager settings) {
+            public void onSettingsManagerCreated(SettingsManager settings) {
                 PackageManager manager = mContext.getPackageManager();
                 mAppPrefs = settings.getPackagePreferences(app);
                 String color = mAppPrefs.optString("color", "default");
@@ -86,14 +84,17 @@ public class ColorWheelDialog {
             }
         }).execute();
 
+        PackageManager packageManager = mContext.getPackageManager();
+        String appName = app.loadLabel(packageManager).toString();
+
         builder.setView(view)
-                .setTitle(R.string.setup_dialog_title)
+                .setTitle(appName)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         new SettingsManagerAsyncTask(mContext, new SettingsManagerAsyncTask.OnSettingsManagerCreated() {
                             @Override
-                            public void onTimeManagerCreated(SettingsManager settings) {
+                            public void onSettingsManagerCreated(SettingsManager settings) {
                                 String color = String.format("#%06X", 0xFFFFFF & mPicker.getColor());
                                 try {
                                     mAppPrefs.put("color", (mDefaultColor.isChecked() ? "default" : color));
@@ -101,8 +102,6 @@ public class ColorWheelDialog {
                                         mAppPrefs.put("lights", mLightsAdapter.getSelectedLights());
                                     }
                                     settings.addPackagePreferences(app, mAppPrefs);
-                                    CoordinatorLayout parent = (CoordinatorLayout) mContext.findViewById(R.id.parentLayout);
-                                    Snackbar.make(parent, "Preferences Saved", Snackbar.LENGTH_SHORT).show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -115,8 +114,7 @@ public class ColorWheelDialog {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }
-                })
-                .setMessage(R.string.setup_dialog);
+                });
         return builder.create();
     }
 }

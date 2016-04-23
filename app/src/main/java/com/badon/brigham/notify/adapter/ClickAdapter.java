@@ -6,14 +6,9 @@ import android.view.View;
 public abstract class ClickAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
 
     protected OnItemClickListener mListener;
-    protected OnItemLongClickListener mLongListener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
-    }
-
-    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
-        mLongListener = listener;
     }
 
     public interface OnItemClickListener {

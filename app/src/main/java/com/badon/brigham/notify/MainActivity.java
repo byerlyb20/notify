@@ -4,6 +4,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String apiKey = prefs.getString("apiKey", "");
-        if (!LIFXNotify.NOTIFICATION_ACCESS || apiKey.isEmpty()) {
+        if (!LifxNotify.NOTIFICATION_ACCESS || apiKey.isEmpty()) {
             startActivity(new Intent(getApplicationContext(), IntroActivity.class));
         }
 
@@ -60,15 +62,23 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_notification:
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 int priority = Integer.valueOf(prefs.getString("priority", "0"));
+                int color;
+
+                Resources resources = getResources();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    color = resources.getColor(R.color.colorPrimary, null);
+                } else {
+                    color = resources.getColor(R.color.colorPrimary);
+                }
+
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setColor(getResources().getColor(R.color.colorPrimary))
+                        .setColor(color)
                         .setContentTitle("Test Notification")
                         .setContentText("This is a test notification from Notify. You can ignore it.")
                         .setPriority(priority);
 
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
                 mNotificationManager.notify(0, builder.build());
                 break;
         }

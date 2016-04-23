@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-import com.badon.brigham.notify.util.LIFXAPI;
+import com.badon.brigham.notify.util.LifxCloud;
 import com.badon.brigham.notify.util.SettingsManager;
 
 import org.json.JSONArray;
@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class LIFXNotify extends NotificationListenerService {
+public class LifxNotify extends NotificationListenerService {
     public static boolean NOTIFICATION_ACCESS = false;
 
     @Override
@@ -57,7 +57,7 @@ public class LIFXNotify extends NotificationListenerService {
                     }
                     JSONArray lights = appPrefs.optJSONArray("lights");
                     String selector;
-                    if (lights == null) {
+                    if (lights == null || lights.length() == 0) {
                         selector = "all";
                     } else {
                         selector = "";
@@ -68,15 +68,19 @@ public class LIFXNotify extends NotificationListenerService {
                         }
                     }
 
-                    LIFXAPI lifxApi = new LIFXAPI(apiKey);
+                    LifxCloud lifxCloud = new LifxCloud(this, apiKey);
                     if (!selector.isEmpty()) {
-                        switch (prefs.getString("pulseType", "breath")) {
-                            case "Breath":
-                                lifxApi.breath(color, prefs.getInt("cycles", 2), selector);
-                                break;
-                            case "Flash":
-                                lifxApi.flash(color, prefs.getInt("cycles", 2), selector);
-                                break;
+                        try {
+                            switch (prefs.getString("pulseType", "breath")) {
+                                case "Breath":
+                                    lifxCloud.breath(color, prefs.getInt("cycles", 2), selector);
+                                    break;
+                                case "Flash":
+                                    lifxCloud.flash(color, prefs.getInt("cycles", 2), selector);
+                                    break;
+                            }
+                        } catch (LifxCloud.LifxCloudException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
