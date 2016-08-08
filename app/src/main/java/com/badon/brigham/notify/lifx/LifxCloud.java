@@ -1,4 +1,4 @@
-package com.badon.brigham.notify.util;
+package com.badon.brigham.notify.lifx;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,6 +17,7 @@ import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -59,7 +60,7 @@ public class LifxCloud {
             } else if (responseCode != STATUS_OK) {
                 throw new LifxCloudException();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new LifxCloudException();
         }
@@ -127,7 +128,7 @@ public class LifxCloud {
         }
     }
 
-    public class LifxCloudException extends Exception {
+    public static class LifxCloudException extends Exception {
 
     }
 
@@ -147,6 +148,7 @@ public class LifxCloud {
                 color = resources.getColor(R.color.colorPrimary);
             }
 
+            // TODO: Add strings to strings.xml
             NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
                     .setSmallIcon(R.drawable.ic_warning)
                     .setColor(color)

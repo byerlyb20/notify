@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.badon.brigham.notify" >
+    package="com.badon.brigham.notify">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -8,20 +8,19 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <service
-            android:name=".LifxNotify"
+            android:name=".NotificationHandler"
             android:label="Notify"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" >
-                </action>
+                <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,13 +30,14 @@
         <activity
             android:name=".ApplicationPickerActivity"
             android:label="@string/title_activity_application_picker"
-            android:parentActivityName=".MainActivity" >
-        </activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".IntroActivity"
             android:label="@string/title_activity_intro"
-            android:theme="@style/AppThemeIntro">
-        </activity>
+            android:theme="@style/AppThemeIntro" />
+        <activity
+            android:name=".ConfigureActivity"
+            android:label="@string/title_activity_configure" />
     </application>
 
 </manifest>

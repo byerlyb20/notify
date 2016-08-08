@@ -1,5 +1,6 @@
 package com.badon.brigham.notify;
 
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.view.View;
 
 import com.badon.brigham.notify.adapter.ApplicationListAdapter;
 import com.badon.brigham.notify.adapter.ClickAdapter;
-import com.badon.brigham.notify.dialog.ColorWheelDialog;
 import com.badon.brigham.notify.util.SettingsManager;
 import com.badon.brigham.notify.util.SettingsManagerAsyncTask;
 
@@ -39,7 +39,10 @@ public class ApplicationPickerActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new ClickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                new ColorWheelDialog(ApplicationPickerActivity.this).getDialog(mApplications.get(position)).show();
+                //new ColorWheelDialog(ApplicationPickerActivity.this).getDialog(mApplications.get(position)).show();
+                Intent intent = new Intent(ApplicationPickerActivity.this, ConfigureActivity.class);
+                intent.putExtra("package", mApplications.get(position).packageName);
+                startActivity(intent);
             }
         });
         mAdapter.setOnItemEnableChangeListener(new ApplicationListAdapter.OnItemEnabledChangeListener() {
@@ -65,9 +68,7 @@ public class ApplicationPickerActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
-
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,9 +2,13 @@ package com.badon.brigham.notify.util;
 
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
+import com.badon.brigham.notify.lifx.LifxCloud;
+import com.badon.brigham.notify.lifx.Location;
+import com.badon.brigham.notify.lifx.LocationBuilder;
 
-public class ListLightsAsyncTask extends AsyncTask<Void, Void, JSONArray> {
+import java.util.ArrayList;
+
+public class ListLightsAsyncTask extends AsyncTask<Void, Void, ArrayList<Location>> {
 
     protected SettingsManager mSettings;
     protected OnLightsReceived mListener;
@@ -15,16 +19,21 @@ public class ListLightsAsyncTask extends AsyncTask<Void, Void, JSONArray> {
     }
 
     @Override
-    protected JSONArray doInBackground(Void... params) {
-        return mSettings.getLights();
+    protected ArrayList<Location> doInBackground(Void... params) {
+        LocationBuilder builder = new LocationBuilder(mSettings.getLights());
+        try {
+            return builder.getLights();
+        } catch (LifxCloud.LifxCloudException e) {
+            return new ArrayList<>();
+        }
     }
 
     @Override
-    protected void onPostExecute(JSONArray result) {
+    protected void onPostExecute(ArrayList<Location> result) {
         mListener.onLightsReceived(result);
     }
 
     public interface OnLightsReceived {
-        void onLightsReceived(JSONArray lights);
+        void onLightsReceived(ArrayList<Location> lights);
     }
 }

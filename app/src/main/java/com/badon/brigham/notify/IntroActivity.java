@@ -60,7 +60,7 @@ public class IntroActivity extends FragmentActivity {
     public void finish(View view) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String apiKey = prefs.getString("apiKey", "");
-        if (LifxNotify.NOTIFICATION_ACCESS && !apiKey.isEmpty()) {
+        if (NotificationHandler.NOTIFICATION_ACCESS && !apiKey.isEmpty()) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

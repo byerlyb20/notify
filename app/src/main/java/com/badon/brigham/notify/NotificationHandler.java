@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-import com.badon.brigham.notify.util.LifxCloud;
+import com.badon.brigham.notify.lifx.LifxCloud;
 import com.badon.brigham.notify.util.SettingsManager;
 
 import org.json.JSONArray;
@@ -18,7 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class LifxNotify extends NotificationListenerService {
+public class NotificationHandler extends NotificationListenerService {
+
     public static boolean NOTIFICATION_ACCESS = false;
 
     @Override
@@ -55,17 +56,16 @@ public class LifxNotify extends NotificationListenerService {
                     if (color.equals("default")) {
                         color = settings.getDefaultColor(app.loadIcon(manager));
                     }
-                    JSONArray lights = appPrefs.optJSONArray("lights");
-                    String selector;
-                    if (lights == null || lights.length() == 0) {
+
+                    String selector = null;
+                    try {
+                        selector = appPrefs.getString("selector");
+                    } catch (JSONException e) {
+                        JSONArray lights = appPrefs.optJSONArray("lights");
+                        selector = SettingsManager.getSelector(lights);
+                    }
+                    if (selector == null) {
                         selector = "all";
-                    } else {
-                        selector = "";
-                        for (int i = 0; i < lights.length(); i++) {
-                            if (i > 0) selector += ",";
-                            String id = lights.getString(i);
-                            selector += "id:" + id;
-                        }
                     }
 
                     LifxCloud lifxCloud = new LifxCloud(this, apiKey);

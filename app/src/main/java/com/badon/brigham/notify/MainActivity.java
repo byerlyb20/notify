@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String apiKey = prefs.getString("apiKey", "");
-        if (!LifxNotify.NOTIFICATION_ACCESS || apiKey.isEmpty()) {
+        if (!NotificationHandler.NOTIFICATION_ACCESS || apiKey.isEmpty()) {
             startActivity(new Intent(getApplicationContext(), IntroActivity.class));
         }
 
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 

@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v7.graphics.Palette;
 
+import com.badon.brigham.notify.lifx.LifxCloud;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,7 +83,6 @@ public class SettingsManager {
     }
 
     public synchronized static SettingsManager getSettings(Context context) {
-
         if (mSettingsManager == null) mSettingsManager = new SettingsManager(context);
 
         return mSettingsManager;
@@ -108,6 +109,25 @@ public class SettingsManager {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    public static String getSelector(JSONArray lights) throws JSONException {
+        String selector;
+        if (lights == null) {
+            selector = "all";
+        } else {
+            if (lights.length() == 0) {
+                return "";
+            }
+            selector = "";
+            for (int i = 0; i < lights.length(); i++) {
+                if (i > 0) selector += ",";
+                String id = lights.getString(i);
+                selector += "id:" + id;
+            }
+        }
+
+        return selector;
     }
 
     public JSONObject getPackagePreferences(ApplicationInfo app) {
