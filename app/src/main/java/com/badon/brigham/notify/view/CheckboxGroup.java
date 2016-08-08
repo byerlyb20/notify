@@ -42,6 +42,7 @@ public class CheckboxGroup extends LinearLayout {
         mChildren = (LinearLayout) view.findViewById(R.id.children);
         mProgress = (ProgressBar) view.findViewById(R.id.progress);
         mMasterCheckbox.setChecked(false);
+        mMasterCheckbox.jumpDrawablesToCurrentState();
         if (mLabel != null) {
             mMasterCheckbox.setText(mLabel);
         }
@@ -49,9 +50,13 @@ public class CheckboxGroup extends LinearLayout {
             @Override
             public void onClick(View v) {
                 boolean isChecked = mMasterCheckbox.isChecked();
-                checkChildren(isChecked);
+                checkChildren(isChecked, true);
             }
         });
+    }
+
+    public boolean isLoading() {
+        return mProgress.getVisibility() == View.VISIBLE;
     }
 
     public void setLoading(boolean isLoading) {
@@ -80,12 +85,15 @@ public class CheckboxGroup extends LinearLayout {
         return true;
     }
 
-    private void checkChildren(boolean checked) {
+    private void checkChildren(boolean checked, boolean animate) {
         for (CheckboxGroup group : mChildGroups) {
-            group.setChecked(checked);
+            group.setChecked(checked, animate);
         }
         for (CheckBox checkBox : mChildCheckboxes) {
             checkBox.setChecked(checked);
+            if (!animate) {
+                checkBox.jumpDrawablesToCurrentState();
+            }
         }
     }
 
@@ -93,9 +101,12 @@ public class CheckboxGroup extends LinearLayout {
         return mMasterCheckbox.isChecked();
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(boolean checked, boolean animate) {
         mMasterCheckbox.setChecked(checked);
-        checkChildren(checked);
+        if (!animate) {
+            mMasterCheckbox.jumpDrawablesToCurrentState();
+        }
+        checkChildren(checked, animate);
     }
 
     public void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener) {
@@ -134,6 +145,6 @@ public class CheckboxGroup extends LinearLayout {
         mChildCheckboxes.clear();
         mChildGroups.clear();
         mMasterCheckbox.setChecked(false);
+        mMasterCheckbox.jumpDrawablesToCurrentState();
     }
-
 }

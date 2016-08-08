@@ -11,15 +11,20 @@ import java.util.ArrayList;
 public class ListLightsAsyncTask extends AsyncTask<Void, Void, ArrayList<Location>> {
 
     protected SettingsManager mSettings;
+    protected boolean mUpdate;
     protected OnLightsReceived mListener;
 
-    public ListLightsAsyncTask(SettingsManager settings, OnLightsReceived listener) {
+    public ListLightsAsyncTask(SettingsManager settings, boolean update, OnLightsReceived listener) {
         mSettings = settings;
+        mUpdate = update;
         mListener = listener;
     }
 
     @Override
     protected ArrayList<Location> doInBackground(Void... params) {
+        if (mUpdate) {
+            mSettings.resetLights();
+        }
         LocationBuilder builder = new LocationBuilder(mSettings.getLights());
         try {
             return builder.getLights();

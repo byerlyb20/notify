@@ -35,7 +35,6 @@ public class SelectLightView extends CheckboxGroup {
     }
 
     public void setLights(ArrayList<Location> lights) {
-        setLoading(false);
         clear();
         mLights = lights;
         for (Location location : mLights) {
@@ -64,7 +63,7 @@ public class SelectLightView extends CheckboxGroup {
 
     public void setSelector(String selector) {
         if (selector.equals("all")) {
-            setChecked(true);
+            setChecked(true, false);
             return;
         }
 

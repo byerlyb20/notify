@@ -52,6 +52,7 @@ public class ApplicationListAdapter extends ClickAdapter<ApplicationListAdapter.
                 holder.mSecondary.setText(applicationInfo.packageName);
                 holder.mIcon.setImageDrawable(applicationInfo.loadIcon(mManager));
                 holder.mEnabled.setChecked(object.optBoolean("enabled", true));
+                holder.mEnabled.jumpDrawablesToCurrentState();
             }
         }).execute();
     }

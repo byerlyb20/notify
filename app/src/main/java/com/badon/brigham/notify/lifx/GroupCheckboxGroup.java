@@ -1,10 +1,12 @@
 package com.badon.brigham.notify.lifx;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.CheckBox;
 
 import com.badon.brigham.notify.view.CheckboxGroup;
 
+@SuppressLint("ViewConstructor")
 class GroupCheckboxGroup extends CheckboxGroup {
 
     private Group mGroup;
@@ -21,7 +23,7 @@ class GroupCheckboxGroup extends CheckboxGroup {
 
     public boolean checkLights(String selector) {
         if (selector.equals(mGroup.getSelector())) {
-            setChecked(true);
+            setChecked(true, false);
             return true;
         }
 

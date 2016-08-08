@@ -20,7 +20,7 @@ class LocationCheckboxGroup extends CheckboxGroup {
 
     public boolean checkLights(String selector) {
         if (selector.equals(mLocation.getSelector())) {
-            setChecked(true);
+            setChecked(true, false);
             return true;
         }
 

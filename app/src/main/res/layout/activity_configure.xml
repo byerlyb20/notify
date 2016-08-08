@@ -44,11 +44,30 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/auto" />
 
-            <TextView
-                style="?android:attr/listSeparatorTextViewStyle"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lights" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/selectLightViewTitle"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/refreshButton"
+                    android:text="@string/lights" />
+
+                <ImageButton
+                    android:id="@+id/refreshButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:onClick="updateSelectLightView"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_refresh_white_24dp"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
 
             <com.badon.brigham.notify.lifx.SelectLightView
                 android:id="@+id/selectLightView"

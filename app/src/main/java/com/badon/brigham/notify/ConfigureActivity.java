@@ -76,7 +76,7 @@ public class ConfigureActivity extends AppCompatActivity {
             public void onSettingsManagerCreated(SettingsManager settings) {
                 mAppPrefs = settings.getPackagePreferences(mApp);
 
-                new ListLightsAsyncTask(settings, new ListLightsAsyncTask.OnLightsReceived() {
+                new ListLightsAsyncTask(settings, false, new ListLightsAsyncTask.OnLightsReceived() {
                     @Override
                     public void onLightsReceived(ArrayList<Location> cloudLights) {
                         mSelectLightView.setLights(cloudLights);
@@ -95,6 +95,7 @@ public class ConfigureActivity extends AppCompatActivity {
                         if (selector != null) {
                             mSelectLightView.setSelector(selector);
                         }
+                        mSelectLightView.setLoading(false);
                     }
                 }).execute();
 
@@ -103,6 +104,7 @@ public class ConfigureActivity extends AppCompatActivity {
                     PackageManager manager = ConfigureActivity.this.getPackageManager();
                     color = settings.getDefaultColor(mApp.loadIcon(manager));
                     mDefaultColor.setChecked(true);
+                    mDefaultColor.jumpDrawablesToCurrentState();
                 }
                 int colorInt = Color.parseColor(color);
                 mPicker.setHistory(colorInt);
@@ -141,6 +143,27 @@ public class ConfigureActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateSelectLightView(View view) {
+        if (mSelectLightView.isLoading()) {
+            return;
+        }
+        mSelectLightView.setLoading(true);
+        final String selector = mSelectLightView.getSelector();
+        new SettingsManagerAsyncTask(this, new SettingsManagerAsyncTask.OnSettingsManagerCreated() {
+            @Override
+            public void onSettingsManagerCreated(SettingsManager settings) {
+                new ListLightsAsyncTask(settings, true, new ListLightsAsyncTask.OnLightsReceived() {
+                    @Override
+                    public void onLightsReceived(ArrayList<Location> cloudLights) {
+                        mSelectLightView.setLights(cloudLights);
+                        mSelectLightView.setSelector(selector);
+                        mSelectLightView.setLoading(false);
+                    }
+                }).execute();
+            }
+        }).execute();
     }
 
     private void save() {

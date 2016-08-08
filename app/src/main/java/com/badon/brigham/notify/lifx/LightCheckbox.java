@@ -1,8 +1,10 @@
 package com.badon.brigham.notify.lifx;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.CheckBox;
 
+@SuppressLint("ViewConstructor")
 class LightCheckbox extends CheckBox {
 
     private Light mLight;
@@ -16,5 +18,4 @@ class LightCheckbox extends CheckBox {
     public Light getLight() {
         return mLight;
     }
-
 }
