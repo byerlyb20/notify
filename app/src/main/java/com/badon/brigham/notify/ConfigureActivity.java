@@ -3,6 +3,7 @@ package com.badon.brigham.notify;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.badon.brigham.notify.lifx.Location;
 import com.badon.brigham.notify.lifx.SelectLightView;
@@ -28,6 +31,9 @@ import java.util.ArrayList;
 
 public class ConfigureActivity extends AppCompatActivity {
 
+    private ImageView mIcon;
+    private TextView mAppName;
+    private TextView mPackage;
     private LobsterPicker mPicker;
     private LobsterShadeSlider mShader;
     private CheckBox mDefaultColor;
@@ -53,6 +59,9 @@ public class ConfigureActivity extends AppCompatActivity {
             });
         }
 
+        mIcon = (ImageView) findViewById(R.id.icon);
+        mAppName = (TextView) findViewById(R.id.appName);
+        mPackage = (TextView) findViewById(R.id.packageName);
         mPicker = (LobsterPicker) findViewById(R.id.picker);
         mShader = (LobsterShadeSlider) findViewById(R.id.shader);
         mDefaultColor = (CheckBox) findViewById(R.id.defaultColor);
@@ -66,7 +75,6 @@ public class ConfigureActivity extends AppCompatActivity {
         try {
             mApp = getPackageManager().getApplicationInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
-            // TODO: Show error message
             finish();
         }
 
@@ -75,6 +83,12 @@ public class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onSettingsManagerCreated(SettingsManager settings) {
                 mAppPrefs = settings.getPackagePreferences(mApp);
+                PackageManager manager = ConfigureActivity.this.getPackageManager();
+                Drawable appIcon = mApp.loadIcon(manager);
+
+                mIcon.setImageDrawable(appIcon);
+                mAppName.setText(mApp.loadLabel(manager).toString());
+                mPackage.setText(mApp.packageName);
 
                 new ListLightsAsyncTask(settings, false, new ListLightsAsyncTask.OnLightsReceived() {
                     @Override
@@ -101,8 +115,7 @@ public class ConfigureActivity extends AppCompatActivity {
 
                 String color = mAppPrefs.optString("color", "default");
                 if (color.equals("default")) {
-                    PackageManager manager = ConfigureActivity.this.getPackageManager();
-                    color = settings.getDefaultColor(mApp.loadIcon(manager));
+                    color = settings.getDefaultColor(appIcon);
                     mDefaultColor.setChecked(true);
                     mDefaultColor.jumpDrawablesToCurrentState();
                 }

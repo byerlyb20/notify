@@ -1,7 +1,8 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_application_picker">0dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="activity_application_picker">0dp</dimen>
     <dimen name="activity_intro_cardview">16dp</dimen>
     <dimen name="dialog_margin">24dp</dimen>
     <!-- List Item dimensions, per the Material Design guidelines. -->
