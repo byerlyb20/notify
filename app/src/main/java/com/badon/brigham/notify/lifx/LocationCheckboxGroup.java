@@ -2,7 +2,7 @@ package com.badon.brigham.notify.lifx;
 
 import android.content.Context;
 
-import com.badon.brigham.notify.view.CheckboxGroup;
+import com.badon.brigham.notify.widget.CheckboxGroup;
 
 class LocationCheckboxGroup extends CheckboxGroup {
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/List.Item"
+    android:background="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/icon"
+        style="@style/List.Image"
+        tools:ignore="ContentDescription" />
+
+    <FrameLayout style="@style/List.Content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/firstLine"
+                style="@style/List.Text.Primary" />
+
+            <TextView
+                android:id="@+id/secondLine"
+                style="@style/List.Text.Secondary" />
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical" />
+    </FrameLayout>
+</FrameLayout>

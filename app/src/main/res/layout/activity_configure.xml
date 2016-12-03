@@ -8,10 +8,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp" />
+        style="@style/Toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,99 +17,82 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/default_margin">
+            <FrameLayout style="@style/List.Item">
 
                 <ImageView
                     android:id="@+id/icon"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="16dp"
+                    style="@style/List.Image"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    style="@style/List.Content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/appName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:fadingEdge="horizontal"
-                        android:maxLines="1"
-                        android:textAppearance="@style/ListItemPrimaryText" />
+                        style="@style/List.Text.Primary" />
 
                     <TextView
                         android:id="@+id/packageName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        style="@style/List.Text.Secondary" />
                 </LinearLayout>
-            </LinearLayout>
+            </FrameLayout>
 
-            <com.larswerkman.lobsterpicker.LobsterPicker
-                android:id="@+id/picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
-
-            <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
-                android:id="@+id/shader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
-
-            <CheckBox
-                android:id="@+id/defaultColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/auto" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_margin">
 
-                <TextView
-                    android:id="@+id/selectLightViewTitle"
-                    style="?android:attr/listSeparatorTextViewStyle"
-                    android:layout_width="match_parent"
+                <com.larswerkman.lobsterpicker.LobsterPicker
+                    android:id="@+id/picker"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/refreshButton"
-                    android:text="@string/lights" />
+                    android:layout_gravity="center_horizontal" />
 
-                <ImageButton
-                    android:id="@+id/refreshButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:onClick="updateSelectLightView"
-                    android:padding="16dp"
-                    android:src="@drawable/ic_refresh_white_24dp"
-                    tools:ignore="ContentDescription" />
-            </RelativeLayout>
+                <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
+                    android:id="@+id/shader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
 
-            <com.badon.brigham.notify.lifx.SelectLightView
-                android:id="@+id/selectLightView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <CheckBox
+                    android:id="@+id/defaultColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/auto" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/selectLightViewTitle"
+                        style="?android:attr/listSeparatorTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/refreshButton"
+                        android:text="@string/lights" />
+
+                    <ImageButton
+                        android:id="@+id/refreshButton"
+                        style="@style/Icon.Button"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:onClick="updateSelectLightView"
+                        android:src="@drawable/ic_refresh_white_24dp"
+                        tools:ignore="ContentDescription" />
+                </RelativeLayout>
+
+                <com.badon.brigham.notify.lifx.SelectLightView
+                    android:id="@+id/selectLightView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

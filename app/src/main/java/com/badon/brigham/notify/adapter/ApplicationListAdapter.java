@@ -22,19 +22,18 @@ import java.util.ArrayList;
 public class ApplicationListAdapter extends ClickAdapter<ApplicationListAdapter.ViewHolder> {
 
     protected OnItemEnabledChangeListener mEnabledListener;
-    private ArrayList<ApplicationInfo> mApplications;
+    private ArrayList<ApplicationInfo> mApplications = new ArrayList<>();
     private PackageManager mManager;
     private Context mContext;
 
-    public ApplicationListAdapter(ArrayList<ApplicationInfo> applications, Context context) {
-        mApplications = applications;
+    public ApplicationListAdapter(Context context) {
         mContext = context;
         mManager = context.getPackageManager();
     }
 
     @Override
     public ApplicationListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_application, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_app, parent, false);
         ViewHolder holder = new ApplicationListAdapter.ViewHolder(view);
         holder.attachToListener(mListener);
         holder.attachToEnabledListener(mEnabledListener);

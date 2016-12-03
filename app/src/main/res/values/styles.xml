@@ -5,12 +5,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-
     </style>
 
     <style name="AppThemeIntro" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
@@ -20,9 +20,78 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ListItemPrimaryText" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">16sp</item>
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:elevation">@dimen/toolbar_elevation</item>
     </style>
 
+    <style name="TextAppearance.Primary" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/text_primary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Secondary" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/text_secondary</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="Icon">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="android:layout_margin">@dimen/icon_margin</item>
+    </style>
+
+    <style name="Icon.Button">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="List">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/list_content_area_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/list_content_area_margin_vertical</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="List.Item">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:minHeight">@dimen/list_item_height</item>
+        <item name="android:paddingLeft">@dimen/list_item_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/list_item_padding_horizontal</item>
+    </style>
+
+    <style name="List.Image">
+        <item name="android:layout_width">@dimen/list_image_size</item>
+        <item name="android:layout_height">@dimen/list_image_size</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="List.Content">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/list_content_margin_start</item>
+    </style>
+
+    <style name="List.Text">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="List.Text.Primary">
+        <item name="android:textAppearance">@style/TextAppearance.Primary</item>
+    </style>
+
+    <style name="List.Text.Secondary">
+        <item name="android:textAppearance">@style/TextAppearance.Secondary</item>
+    </style>
 </resources>
 

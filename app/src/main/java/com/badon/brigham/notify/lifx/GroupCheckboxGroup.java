@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.CheckBox;
 
-import com.badon.brigham.notify.view.CheckboxGroup;
+import com.badon.brigham.notify.widget.CheckboxGroup;
 
 @SuppressLint("ViewConstructor")
 class GroupCheckboxGroup extends CheckboxGroup {

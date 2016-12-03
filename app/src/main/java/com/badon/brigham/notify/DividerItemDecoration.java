@@ -17,6 +17,7 @@
 package com.badon.brigham.notify;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -33,14 +34,20 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             android.R.attr.listDivider
     };
     private Drawable mDivider;
+    private boolean mFullBleed;
+    private int mMarginStart;
 
     private int mOrientation;
 
-    public DividerItemDecoration(Context context, int orientation) {
+    public DividerItemDecoration(Context context, int orientation, boolean fullBleed) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
         setOrientation(orientation);
+
+        Resources res = context.getResources();
+        mMarginStart = (int) res.getDimension(R.dimen.list_content_area_divider_margin_start);
+        mFullBleed = fullBleed;
     }
 
     public void setOrientation(int orientation) {
@@ -60,7 +67,12 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     public void drawVertical(Canvas c, RecyclerView parent) {
-        final int left = parent.getPaddingLeft();
+        final int left;
+        if (mFullBleed) {
+            left = parent.getPaddingLeft();
+        } else {
+            left = parent.getPaddingLeft() + mMarginStart;
+        }
         final int right = parent.getWidth() - parent.getPaddingRight();
 
         final int childCount = parent.getChildCount();

@@ -3,7 +3,7 @@ package com.badon.brigham.notify.lifx;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.badon.brigham.notify.view.CheckboxGroup;
+import com.badon.brigham.notify.widget.CheckboxGroup;
 
 import java.util.ArrayList;
 

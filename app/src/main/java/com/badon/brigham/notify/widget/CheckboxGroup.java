@@ -1,4 +1,4 @@
-package com.badon.brigham.notify.view;
+package com.badon.brigham.notify.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -36,7 +36,7 @@ public class CheckboxGroup extends LinearLayout {
         setOrientation(VERTICAL);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.view_checkbox_group, this);
+        View view = inflater.inflate(R.layout.widget_checkbox_group, this);
 
         mMasterCheckbox = (CheckBox) view.findViewById(R.id.masterCheckbox);
         mChildren = (LinearLayout) view.findViewById(R.id.children);

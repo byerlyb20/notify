@@ -2,4 +2,7 @@
 <resources>
     <item name="colorPrimary" type="color">#9A2EFE</item>
     <item name="colorPrimaryDark" type="color">#7401de</item>
+
+    <item name="colorTextPrimary" type="color">#FFFFFF</item>
+    <item name="colorTextSecondary" type="color">#B3FFFFFF</item>
 </resources>
