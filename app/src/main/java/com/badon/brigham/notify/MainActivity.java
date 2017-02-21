@@ -17,7 +17,6 @@ import android.view.MenuItem;
 
 import com.badon.brigham.notify.dialog.AboutDialog;
 
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -28,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         String apiKey = prefs.getString("apiKey", "");
         if (!NotificationHandler.NOTIFICATION_ACCESS || apiKey.isEmpty()) {
             startActivity(new Intent(getApplicationContext(), IntroActivity.class));
+            finish();
         }
 
         setContentView(R.layout.activity_main);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notification)
+                        .setSmallIcon(R.drawable.ic_notifications_white_24dp)
                         .setColor(color)
                         .setContentTitle("Test Notification")
                         .setContentText("This is a test notification from Notify. You can ignore it.")

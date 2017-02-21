@@ -4,7 +4,7 @@
     tools:context="com.badon.brigham.notify.MainActivity">
     <item
         android:id="@+id/action_done"
-        android:icon="@drawable/ic_done"
+        android:icon="@drawable/ic_check_white_24dp"
         android:title="@string/action_done"
         app:showAsAction="always" />
 </menu>

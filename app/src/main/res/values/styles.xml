@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="AppThemeIntro" parent="Theme.AppCompat.Light.NoActionBar">
@@ -20,11 +20,49 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="IconButton">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="android:padding">@dimen/icon_margin</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="MaterialButtonTheme" parent="Base.Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@android:color/white</item>
+        <item name="android:paddingLeft">@dimen/button_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/button_padding_horizontal</item>
+    </style>
+
+    <style name="IconButton.Dark">
+        <item name="android:theme">@android:style/ThemeOverlay.Material.Dark</item>
+    </style>
+
+    <style name="IntroIconButtonLeft" parent="IconButton">
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="IntroIconButtonRight" parent="IconButton">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="IntroIconButtonRight.Dark" parent="IconButton.Dark">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="IntroTitle" parent="List.Item.Dense">
+        <item name="android:textAppearance">@style/TextAppearance.Primary.Light</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
     <style name="Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:elevation">@dimen/toolbar_elevation</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
     <style name="TextAppearance.Primary" parent="@android:style/TextAppearance">
@@ -35,6 +73,10 @@
     <style name="TextAppearance.Secondary" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/text_secondary</item>
         <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Primary.Light" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorTextPrimaryLight</item>
     </style>
 
     <style name="Icon">
@@ -59,23 +101,32 @@
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginBottom">0dp</item>
         <item name="android:minHeight">@dimen/list_item_height</item>
-        <item name="android:paddingLeft">@dimen/list_item_padding_horizontal</item>
-        <item name="android:paddingRight">@dimen/list_item_padding_horizontal</item>
+        <item name="android:paddingStart">@dimen/list_item_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/list_item_padding_horizontal</item>
     </style>
 
-    <style name="List.Image">
-        <item name="android:layout_width">@dimen/list_image_size</item>
-        <item name="android:layout_height">@dimen/list_image_size</item>
+    <style name="List.Item.Dense">
+        <item name="android:minHeight">@dimen/list_item_height_dense</item>
+    </style>
+
+    <style name="List.Icon">
+        <item name="android:layout_width">@dimen/list_icon_size</item>
+        <item name="android:layout_height">@dimen/list_icon_size</item>
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginBottom">0dp</item>
         <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="List.Icon.Dense">
+        <item name="android:layout_width">@dimen/list_icon_size_dense</item>
+        <item name="android:layout_height">@dimen/list_icon_size_dense</item>
     </style>
 
     <style name="List.Content">
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginBottom">0dp</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/list_content_margin_start</item>
+        <item name="android:layout_marginStart">@dimen/list_content_margin_start</item>
     </style>
 
     <style name="List.Text">
@@ -92,6 +143,10 @@
 
     <style name="List.Text.Secondary">
         <item name="android:textAppearance">@style/TextAppearance.Secondary</item>
+    </style>
+
+    <style name="List.Text.Primary.Light">
+        <item name="android:textAppearance">@style/TextAppearance.Primary.Light</item>
     </style>
 </resources>
 

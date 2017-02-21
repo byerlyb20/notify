@@ -1,35 +1,46 @@
 <resources>
 
-    <!-- Default screen margins, per the Material Design guidelines. -->
+    <!-- Intro Card dimens -->
+
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="card_height">350dp</dimen>
+    <dimen name="card_width">300dp</dimen>
+
+    <!-- Default screen margins, per the Material Design guidelines -->
 
     <dimen name="activity_margin">16dp</dimen>
-    <dimen name="card_margin">16dp</dimen>
     <dimen name="progress_margin">16dp</dimen>
 
-    <!-- Toolbar dimensions, per the Material Design guidelines. -->
+    <!-- Toolbar dimens, per the Material Design guidelines -->
 
     <dimen name="toolbar_elevation">4dp</dimen>
+
+    <!-- Button dimens, per the Material Design guidelines -->
+
+    <dimen name="button_padding_horizontal">16dp</dimen>
 
     <!-- Text sizes, per the Material Design guidelines -->
 
     <dimen name="text_primary">16sp</dimen>
     <dimen name="text_secondary">14sp</dimen>
 
-    <!-- Icon dimensions, per the Material Design guidelines -->
+    <!-- Icon dimens, per the Material Design guidelines -->
 
     <dimen name="icon_size">24dp</dimen>
-    <dimen name="icon_margin">16dp</dimen>
+    <dimen name="icon_margin">12dp</dimen>
 
-    <!-- List dimensions, per the Material Design guidelines -->
+    <!-- List dimens, per the Material Design guidelines -->
 
     <dimen name="list_content_area_margin_vertical">8dp</dimen>
     <dimen name="list_content_area_divider_margin_start">72dp</dimen>
     <dimen name="list_item_height">72dp</dimen>
+    <dimen name="list_item_height_dense">48dp</dimen>
     <dimen name="list_item_padding_horizontal">16dp</dimen>
-    <dimen name="list_image_size">40dp</dimen>
+    <dimen name="list_icon_size">40dp</dimen>
+    <dimen name="list_icon_size_dense">24dp</dimen>
     <dimen name="list_content_margin_start">56dp</dimen>
 
-    <!-- CheckboxGroup dimensions -->
+    <!-- CheckboxGroup dimens -->
 
     <dimen name="checkbox_group_spacing">30dp</dimen>
 </resources>
