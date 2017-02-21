@@ -26,7 +26,7 @@
     <string name="button_5">Edit Cycles</string>
 
     <string name="intro_key_detail">Notify needs to have an API Key so it can control your LIFX
-        bulbs. If you don\'t have one, you can also generate one below</string>
+        bulbs. If you don\'t have one, you can also generate one below.</string>
     <string name="intro_nrp_detail">One last thing - Notify needs notification read access to work
         correctly. Tap the button below to open settings and enable notification access for Notify.</string>
 
