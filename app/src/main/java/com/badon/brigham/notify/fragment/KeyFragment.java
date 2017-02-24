@@ -1,5 +1,6 @@
 package com.badon.brigham.notify.fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 
 import com.badon.brigham.notify.R;
 import com.badon.brigham.notify.intro.IntroFragment;
+import com.badon.brigham.notify.util.CustomTabsFallback;
 
 public class KeyFragment extends IntroFragment {
 
@@ -68,12 +70,16 @@ public class KeyFragment extends IntroFragment {
     private void openGenerateAPIKeySite() {
         String url = "https://cloud.lifx.com/settings";
 
-        int primaryColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
+        if (!CustomTabsFallback.useFallback(getContext())) {
+            int primaryColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
 
-        // TODO: Create a fallback for users that do not have Chrome installed
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(primaryColor);
-        CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(primaryColor);
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+        } else {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(i);
+        }
     }
 }
