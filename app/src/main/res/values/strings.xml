@@ -29,6 +29,9 @@
         bulbs. If you don\'t have one, you can also generate one below.</string>
     <string name="intro_nrp_detail">One last thing - Notify needs notification read access to work
         correctly. Tap the button below to open settings and enable notification access for Notify.</string>
+    <string name="intro_setup_incomplete">The setup did not complete successfully, either because
+        Notify does not have an API Key or because Notify does not have Notification Read Access.
+        Notify will not work until these problems are resolved.</string>
 
     <string name="cycles_dialog_title">Change Pulse Cycles</string>
     <string name="setup_incomplete_dialog_title">Setup Incomplete</string>

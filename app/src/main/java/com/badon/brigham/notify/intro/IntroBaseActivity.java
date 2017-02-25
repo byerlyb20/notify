@@ -110,7 +110,7 @@ public abstract class IntroBaseActivity extends FragmentActivity {
     /**
      * Called when the intro has finished, must call super
      */
-    public void finish() {
+    public void introFinish() {
         // When the intro is finished, tell the fragment to save it's data
         getCurrentFragment().saveData();
     }

@@ -126,7 +126,7 @@ public abstract class IntroFragment extends IntroBaseFragment {
                 rightButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getIntroActivity().finish();
+                        getIntroActivity().introFinish();
                     }
                 });
                 break;

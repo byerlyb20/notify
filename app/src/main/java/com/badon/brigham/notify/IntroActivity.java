@@ -32,14 +32,16 @@ public class IntroActivity extends IntroBaseActivity {
     }
 
     @Override
-    public void finish() {
+    public void introFinish() {
+        super.introFinish();
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String apiKey = prefs.getString("apiKey", "");
         if (NotificationHandler.NOTIFICATION_ACCESS && !apiKey.isEmpty()) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder//.setMessage(R.string.setup_incomplete_dialog)
+            builder.setMessage(R.string.intro_setup_incomplete)
                     .setTitle(R.string.setup_incomplete_dialog_title)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
