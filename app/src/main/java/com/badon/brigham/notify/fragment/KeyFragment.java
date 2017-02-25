@@ -1,10 +1,14 @@
 package com.badon.brigham.notify.fragment;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +22,35 @@ import com.badon.brigham.notify.util.CustomTabsFallback;
 
 public class KeyFragment extends IntroFragment {
 
+    private static final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
+
+    private CustomTabsServiceConnection mConnection;
     private EditText mKeyInput;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mConnection = new CustomTabsServiceConnection() {
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+                client.warmup(0);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        CustomTabsClient.bindCustomTabsService(getContext(), CUSTOM_TAB_PACKAGE_NAME, mConnection);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        getContext().unbindService(mConnection);
+    }
 
     @Override
     public int getPosition() {
@@ -75,6 +107,8 @@ public class KeyFragment extends IntroFragment {
 
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setToolbarColor(primaryColor);
+            builder.setCloseButtonIcon(BitmapFactory.decodeResource(
+                    getResources(), R.drawable.ic_arrow_back_white_24dp));
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
         } else {
