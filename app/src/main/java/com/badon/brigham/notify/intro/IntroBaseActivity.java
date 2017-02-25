@@ -34,6 +34,24 @@ public abstract class IntroBaseActivity extends FragmentActivity {
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position != 0) {
+                    getFragment(position - 1).saveData();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -66,13 +84,7 @@ public abstract class IntroBaseActivity extends FragmentActivity {
      * @param page The page to jump to
      */
     public void setCurrentPage(int page) {
-        int currentItem = mPager.getCurrentItem();
-        if (page != currentItem) {
-            // When tabs are switched, tell the fragment to save it's data
-            getCurrentFragment().saveData();
-
-            mPager.setCurrentItem(page);
-        }
+        mPager.setCurrentItem(page);
     }
 
     /**
@@ -98,13 +110,23 @@ public abstract class IntroBaseActivity extends FragmentActivity {
     }
 
     /**
+     * Called to get an instance of the Fragment given a position
+     *
+     * @param position The position to retrieve a Fragment from
+     * @return The Fragment at the given position
+     */
+    private IntroBaseFragment getFragment(int position) {
+        return (IntroBaseFragment) mAdapter.getItem(position);
+    }
+
+    /**
      * Called to get an instance of the Fragment that is currently in view
      *
      * @return The Fragment that is currently in view
      */
     private IntroBaseFragment getCurrentFragment() {
         int currentItem = mPager.getCurrentItem();
-        return (IntroBaseFragment) mAdapter.getItem(currentItem);
+        return getFragment(currentItem);
     }
 
     /**

@@ -41,12 +41,27 @@ public class IntroActivity extends IntroBaseActivity {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.intro_setup_incomplete)
-                    .setTitle(R.string.setup_incomplete_dialog_title)
+            final int currentItem;
+            if (!NotificationHandler.NOTIFICATION_ACCESS && apiKey.isEmpty()) {
+                // Notify is missing both Notification Read Access and an API Key
+                currentItem = 1;
+                builder.setMessage(R.string.intro_setup_incomplete_both);
+            } else if (!NotificationHandler.NOTIFICATION_ACCESS) {
+                // Notify is only missing Notification Read Access
+                currentItem = 2;
+                builder.setMessage(R.string.intro_setup_incomplete_nrp);
+            } else if (apiKey.isEmpty()) {
+                // Notify is only missing an API Key
+                currentItem = 1;
+                builder.setMessage(R.string.intro_setup_incomplete_key);
+            } else {
+                currentItem = 0;
+            }
+            builder.setTitle(R.string.setup_incomplete_dialog_title)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             ViewPager mPager = (ViewPager) findViewById(R.id.pager);
-                            mPager.setCurrentItem(0);
+                            mPager.setCurrentItem(currentItem);
                         }
                     });
             builder.create().show();
