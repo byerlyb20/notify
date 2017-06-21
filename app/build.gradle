@@ -32,4 +32,5 @@ dependencies {
     compile "com.android.support:design:23.3.0"
     compile "com.github.LarsWerkman:Lobsterpicker:1.0.1"
     compile "com.android.support:palette-v7:23.3.0"
+    compile 'com.android.support:customtabs:23.3.0'
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="colorPrimary" type="color">#9A2EFE</item>
-    <item name="colorPrimaryDark" type="color">#7401de</item>
+    <item name="colorPrimary" type="color">#673AB7</item>
+    <item name="colorPrimaryDark" type="color">#512DA8</item>
 
-    <item name="colorTextPrimary" type="color">#FFFFFF</item>
-    <item name="colorTextSecondary" type="color">#B3FFFFFF</item>
+    <item name="colorTextPrimary" type="color">#DE000000</item>
+    <item name="colorTextSecondary" type="color">#8A000000</item>
+    <item name="colorTextPrimaryLight" type="color">#FFFFFF</item>
+    <item name="colorTextSecondaryLight" type="color">#B3FFFFFF</item>
 </resources>

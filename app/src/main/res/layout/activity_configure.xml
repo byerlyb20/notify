@@ -23,7 +23,7 @@
 
                 <ImageView
                     android:id="@+id/icon"
-                    style="@style/List.Image"
+                    style="@style/List.Icon"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout

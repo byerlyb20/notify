@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/icon"
-        style="@style/List.Image"
+        style="@style/List.Icon"
         tools:ignore="ContentDescription" />
 
     <FrameLayout style="@style/List.Content">

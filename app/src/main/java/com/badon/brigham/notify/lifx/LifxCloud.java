@@ -150,7 +150,7 @@ public class LifxCloud {
 
             // TODO: Add strings to strings.xml
             NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-                    .setSmallIcon(R.drawable.ic_warning)
+                    .setSmallIcon(R.drawable.ic_warning_black_24dp)
                     .setColor(color)
                     .setContentIntent(contentIntent)
                     .setContentTitle("Invalid API Token")
